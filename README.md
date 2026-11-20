@@ -58,16 +58,42 @@ flowchart LR
 ## Repository Structure
 
 ```text
-.
-├── Notebooks/                         # Two Databricks notebooks
-├── dataset/                           # ADF dataset definitions
-├── factory/                           # Data Factory configuration
-├── linkedService/                     # ADF linked-service definitions
-├── pipeline/                          # PL_Sales_DM copy pipeline
-├── Orders_RetailSales_Report.lvdash.json
-├── publish_config.json               # ADF publish settings
-└── README.md
+Sales_Analytics_Project_ADB/
+│
+├── ADF/
+│   ├── dataset/                       # ADF source and destination datasets
+│   ├── factory/                       # Azure Data Factory configuration
+│   ├── linkedService/                 # Azure Storage connection definitions
+│   ├── pipeline/                      # PL_Sales_DM copy pipeline (Raw → Processed)
+│   └── publish_config.json           # ADF publishing configuration
+│
+├── Notebooks/
+│   ├── 01-Sales_Cleaning.ipynb        # PySpark transformations and data validation
+│   └── 02-OrdersFromCSV.ipynb         # Sales data ingestion and processing
+│
+├── Orders_RetailSales_Report.lvdash.json   # Multi-page Databricks AI/BI report
+│
+└── README.md                                # Project documentation
 ```
+
+## Source Control & Deployment
+
+The solution integrates **Azure Data Factory and Azure Databricks with GitHub** to support centralized version control and organized development workflows.
+
+### Azure Data Factory
+- Integrated directly with GitHub using `/ADF` as the repository root.
+- Pipeline, dataset, linked service, and factory configurations are maintained as JSON files.
+- The `PL_Sales_DM` pipeline copies sales data from the raw storage location to the processed storage location.
+- Changes are committed to GitHub and published separately to the live Azure Data Factory environment.
+
+### Azure Databricks
+- Integrated with GitHub through Databricks Git folders.
+- PySpark notebooks are version-controlled alongside the multi-page Databricks AI/BI report.
+- Unity Catalog governs access to Azure Storage through managed identities and external locations.
+- Serverless Compute is used for notebook execution and data processing.
+
+### Repository Organization
+The repository separates orchestration, data transformation, and reporting components while maintaining a unified codebase for the end-to-end Azure Sales Analytics solution.
 
 ## Reproducing the Solution
 
